@@ -1,23 +1,28 @@
-# ![RealWorld Example App](logo.png)
+# RealWorld implementation for NestJs
 
-> ### [YOUR_FRAMEWORK] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+[RealWorld] 스펙을 NestJs로 구현하였습니다.
 
+## TODO
 
-### [Demo](https://demo.realworld.io/)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
+- [ ] 피처 구현
+  - [ ] 유저 CRU-
+  - [ ] 글 CRU-
+- [ ] 테스트 자동화
 
+## RealWorld
 
-This codebase was created to demonstrate a fully fledged fullstack application built with **[YOUR_FRAMEWORK]** including CRUD operations, authentication, routing, pagination, and more.
+Medium.com을 클론코딩해보는 프로젝트입니다. API 스펙이 정해져 있는 것이 특징입니다.
 
-We've gone to great lengths to adhere to the **[YOUR_FRAMEWORK]** community styleguides & best practices.
+- [API Spec](https://realworld-docs.netlify.app/docs/specs/backend-specs/api-response-format)
 
-For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
+## 테스트
 
+- [Postman Collection](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json) 파일을 내려받아 API 콜 테스트를 할 수 있습니다.
 
-# How it works
+## 기술 스택
 
-> Describe the general architecture of your app here
+- NestJS: 프레임워크
 
-# Getting started
+[RealWorld]: https://realworld-docs.netlify.app/docs/intro
 
-> npm install, npm start, etc.
-
+## 참고
