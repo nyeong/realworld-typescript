@@ -1,7 +1,8 @@
 import { Entity, Index, BaseEntity, Column, BeforeInsert, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, DeleteDateColumn } from 'typeorm'
-import { IsEmail, IsString, Matches, Length, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsString, Length, IsNotEmpty } from 'class-validator'
 import * as argon2 from 'argon2'
 import type { Generated } from 'kysely-typeorm'
+import { plainToClass } from 'class-transformer'
 
 // TODO: user or users , User or UserEntity
 
@@ -13,17 +14,15 @@ export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: Generated<number>
 
-    @Index({ unique: true })
-    @Column('varchar', { length: 16, unique: true })
     @IsString()
-    @Matches(/^[a-zA-Z0-9_]{4,16}$/)
+    @IsNotEmpty()
+    @Length(4, 20)
+    @Column({ length: 20 })
     username: string;
 
-    @Column()
-    @Length(1, 20)
-    shownName: string;
-
-    @Column()
+    // 로그인할 때 email을 사용하기 때문에! unique하게 설정합니다.
+    @Index({ unique: true })
+    @Column({ length: 255, unique: true })
     @IsEmail()
     @IsNotEmpty()
     email: string
@@ -56,16 +55,19 @@ export class UserEntity extends BaseEntity {
      */
     @BeforeInsert()
     async hashPassword() {
-        this.password = await argon2.hash(this.password, { type: argon2.argon2id, memoryCost: 19456, parallelism: 1, timeCost: 2 })
+        this.password = await argon2.hash(this.password, { type: argon2.argon2id, memoryCost: 19456, parallelism: 1, timeCost: 2 });
+        return this.password
     }
 
     @BeforeInsert()
     async lowerCaseEmail() {
         this.email = this.email.toLowerCase()
+        return this.email
     }
 
-    @BeforeInsert()
-    async lowerCaseUsername() {
-        this.username = this.username.toLowerCase()
+    async comparePassword(attempt: string): Promise<boolean> {
+        return argon2.verify(this.password, attempt)
     }
+
+    static new(data: Partial<UserEntity>) { return plainToClass(UserEntity, data) }
 }

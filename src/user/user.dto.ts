@@ -8,23 +8,25 @@ import { IsEmail, IsString, IsNotEmpty, IsStrongPassword } from 'class-validator
 export class BaseUserDto {
     @IsString()
     @IsNotEmpty()
-    username: string;
+    readonly username: string;
 
-    shownName: string;
+    readonly shownName: string;
 
     @IsEmail()
     @IsNotEmpty()
-    email: string;
+    readonly email: string;
 
     @IsStrongPassword()
     @IsNotEmpty()
-    password: string;
+    readonly password: string;
 
-    image: string;
+    readonly image: string;
 
-    bio: string;
+    readonly bio: string;
 }
 
 export class CreateUserDto extends PickType(BaseUserDto, ['username', 'email', 'password'] as const) { }
 
 export class UpdateUserDto extends PartialType(BaseUserDto, { skipNullProperties: true }) { }
+
+export class LogInUserDto extends PickType(BaseUserDto, ['email', 'password'] as const) { }
